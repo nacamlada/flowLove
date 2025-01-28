@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "bundler"
+gem "yaml"
+gem "erb"
+gem "roda"
+gem "grpc"
+gem "grpc-tools"
+gem "rack"
+gem "rackup"
+gem "puma"
+gem "strum-json", "~> 0.0.5"
+gem "strum-pipe", "~> 0.0.4"
+gem "strum-service", "~> 0.2.2"
+gem 'cgi'
+gem 'json'
+gem 'bigdecimal'
+gem "byebug"
+gem "redis"

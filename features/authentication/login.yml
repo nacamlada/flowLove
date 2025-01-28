@@ -1,0 +1,27 @@
+# login.yml
+ScenarioName: Authentication
+Name: Login
+Description: It allow user login to system
+
+EntryPoints:
+  - Type: Route
+    RouteMethod: Post
+    RoutePath: Login
+
+Executor:
+  ExecutorName: Login
+  ServerName: AuthServer
+  ExpectedInput:
+    Login: { Type: String, Index: 1 }
+    Password:  { Type: String, Index: 2 }
+  ExpectedOutput:
+    Status: { Type: Integer, Index: 1 }
+
+Flow:
+  Steps:
+    - name: Login
+    - name: TrackLoginAuditLog
+
+  
+
+    

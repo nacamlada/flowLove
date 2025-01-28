@@ -1,0 +1,42 @@
+# handle_session.yml
+ScenarioName: Authentication
+Name: HandleSession
+Description: It allow system get session
+
+EntryPoints:
+  - Type: Route
+    RouteMethod: Get
+    RoutePath: Session
+
+Executor:
+  ExecutorName: GetSession
+  ServerName: AuthServer
+  ExpectedInput:
+    Flow: { Type: String, Index: 1 }
+    AuthValue: { Type: String, Index: 2 }
+  ExpectedOutput:
+    session_id: { Type: Integer, Index: 1 }
+    language: { Type: String, Index: 2 }
+    account_id: { Type: Integer, Index: 3 }
+
+Flow:
+  Steps:
+    - name: GetSession
+    - name: TrackLoginAuditLog
+
+
+ResponseProcessor:
+  Success:
+    Status: 200
+    Body: raw
+  SomethingWentWrong:
+    Status: 500
+    Body: SomethingWentWrong
+  UndefinedError:
+    Status: 500
+    Body: SomethingWentWrong
+
+
+  
+
+    

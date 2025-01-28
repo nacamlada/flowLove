@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package authserver;
+
+service AuthServer {
+  rpc GetSession (GetSessionRequest) returns (GetSessionResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+}
+
+message GetSessionRequest {
+  string Flow = 1;
+  string AuthValue = 2;
+}
+
+message GetSessionResponse {
+  int32 session_id = 1;
+  string language = 2;
+  int32 account_id = 3;
+}
+
+message LoginRequest {
+  string Login = 1;
+  string Password = 2;
+}
+
+message LoginResponse {
+  int32 Status = 1;
+}
