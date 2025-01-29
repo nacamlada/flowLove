@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "bundler"
+gem "yaml"
+gem "erb"
+gem "roda"
+gem "grpc"
+gem "grpc-tools"
+gem "strum-json", "~> 0.0.5"
+gem "strum-pipe", "~> 0.0.4"
+gem "strum-service", "~> 0.2.2"
+gem 'json'
+gem "byebug"
+gem "redis"
+gem 'concurrent-ruby', require: 'concurrent'

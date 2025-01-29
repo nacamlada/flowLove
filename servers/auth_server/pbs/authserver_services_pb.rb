@@ -5,17 +5,17 @@ require 'grpc'
 require 'authserver_pb'
 
 module Authserver
-  module AuthServer
+  module AuthServerService
+    # gRPC service with a single universal method
     class Service
 
       include ::GRPC::GenericService
 
       self.marshal_class_method = :encode
       self.unmarshal_class_method = :decode
-      self.service_name = 'authserver.AuthServer'
+      self.service_name = 'authserver.AuthServerService'
 
-      rpc :GetSession, ::Authserver::GetSessionRequest, ::Authserver::GetSessionResponse
-      rpc :Login, ::Authserver::LoginRequest, ::Authserver::LoginResponse
+      rpc :HandleRequest, ::Authserver::AuthServerRequest, ::Authserver::AuthServerResponse
     end
 
     Stub = Service.rpc_stub_class

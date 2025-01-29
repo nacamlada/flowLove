@@ -1,12 +1,55 @@
 require "yaml"
 require "redis"
 require "json"
+require 'fileutils'
 
 module Generators
   class FeaturesToContracts
     PATH_TO_FEATURES = "../features"
     def call
+      servers = ["AuthServer"]
+      servers.each do |server_name|
+        build_proto(server_name)
+      end
       yamls = find_yaml_files(PATH_TO_FEATURES)
+    end
+
+
+    def build_proto(server_name, output_dir = '../contracts')
+      # Ensure the output directory exists
+      FileUtils.mkdir_p(output_dir)
+    
+      # Define the proto filename
+      proto_filename = File.join(output_dir, "#{server_name.downcase}.proto")
+    
+      # Build the proto file content
+      proto_content = <<~PROTO
+        syntax = "proto3";
+    
+        package #{server_name.downcase};
+    
+        // Universal request message
+        message #{server_name}Request {
+          string method_name = 1;        // Method name to call
+          bytes payload = 2;             // Serialized request data
+        }
+    
+        // Universal response message
+        message #{server_name}Response {
+          int32 status_code = 1;         // Processing status (e.g., 200, 400, 500)
+          string message = 2;            // Message or error description
+          bytes payload = 3;             // Serialized response data
+        }
+    
+        // gRPC service with a single universal method
+        service #{server_name}Service {
+          rpc HandleRequest (#{server_name}Request) returns (#{server_name}Response);
+        }
+      PROTO
+    
+      # Write the content to the proto file
+      File.write(proto_filename, proto_content)
+      puts "Proto file generated: #{proto_filename}"
     end
 
     def find_yaml_files(folder_path)
@@ -19,7 +62,7 @@ module Generators
         end
       end
     
-      generate_proto(yaml_files)
+      generate_logic(yaml_files)
     end
 
     def read_file_content(file)
@@ -44,7 +87,7 @@ module Generators
       end
     end
 
-    def generate_proto(files)
+    def generate_logic(files)
       # Load all YAML files from a directory
       output_dir = '../contracts'
       FileUtils.mkdir_p(output_dir) unless Dir.exist?(output_dir)
@@ -127,9 +170,9 @@ module Generators
         proto_content += message_definitions
 
         # Write the proto file
-        output_file = File.join(output_dir, "#{server_name.downcase}.proto")
-        File.write(output_file, proto_content)
-        puts "Generated: #{output_file}"
+        # output_file = File.join(output_dir, "#{server_name.downcase}.proto")
+        # File.write(output_file, proto_content)
+        # puts "Generated: #{output_file}"
       end
     end
 

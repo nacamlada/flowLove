@@ -5,14 +5,12 @@
 require 'google/protobuf'
 
 
-descriptor_data = "\n\x10\x61uthserver.proto\x12\nauthserver\"4\n\x11GetSessionRequest\x12\x0c\n\x04\x46low\x18\x01 \x01(\t\x12\x11\n\tAuthValue\x18\x02 \x01(\t\"N\n\x12GetSessionResponse\x12\x12\n\nsession_id\x18\x01 \x01(\x05\x12\x10\n\x08language\x18\x02 \x01(\t\x12\x12\n\naccount_id\x18\x03 \x01(\x05\"/\n\x0cLoginRequest\x12\r\n\x05Login\x18\x01 \x01(\t\x12\x10\n\x08Password\x18\x02 \x01(\t\"\x1f\n\rLoginResponse\x12\x0e\n\x06Status\x18\x01 \x01(\x05\x32\x97\x01\n\nAuthServer\x12K\n\nGetSession\x12\x1d.authserver.GetSessionRequest\x1a\x1e.authserver.GetSessionResponse\x12<\n\x05Login\x12\x18.authserver.LoginRequest\x1a\x19.authserver.LoginResponseb\x06proto3"
+descriptor_data = "\n\x10\x61uthserver.proto\x12\nauthserver\"9\n\x11\x41uthServerRequest\x12\x13\n\x0bmethod_name\x18\x01 \x01(\t\x12\x0f\n\x07payload\x18\x02 \x01(\x0c\"K\n\x12\x41uthServerResponse\x12\x13\n\x0bstatus_code\x18\x01 \x01(\x05\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07payload\x18\x03 \x01(\x0c\x32\x63\n\x11\x41uthServerService\x12N\n\rHandleRequest\x12\x1d.authserver.AuthServerRequest\x1a\x1e.authserver.AuthServerResponseb\x06proto3"
 
 pool = Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
 
 module Authserver
-  GetSessionRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.GetSessionRequest").msgclass
-  GetSessionResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.GetSessionResponse").msgclass
-  LoginRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.LoginRequest").msgclass
-  LoginResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.LoginResponse").msgclass
+  AuthServerRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.AuthServerRequest").msgclass
+  AuthServerResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("authserver.AuthServerResponse").msgclass
 end

@@ -2,27 +2,20 @@ syntax = "proto3";
 
 package authserver;
 
-service AuthServer {
-  rpc GetSession (GetSessionRequest) returns (GetSessionResponse);
-  rpc Login (LoginRequest) returns (LoginResponse);
+// Universal request message
+message AuthServerRequest {
+  string method_name = 1;        // Method name to call
+  bytes payload = 2;             // Serialized request data
 }
 
-message GetSessionRequest {
-  string Flow = 1;
-  string AuthValue = 2;
+// Universal response message
+message AuthServerResponse {
+  int32 status_code = 1;         // Processing status (e.g., 200, 400, 500)
+  string message = 2;            // Message or error description
+  bytes payload = 3;             // Serialized response data
 }
 
-message GetSessionResponse {
-  int32 session_id = 1;
-  string language = 2;
-  int32 account_id = 3;
-}
-
-message LoginRequest {
-  string Login = 1;
-  string Password = 2;
-}
-
-message LoginResponse {
-  int32 Status = 1;
+// gRPC service with a single universal method
+service AuthServerService {
+  rpc HandleRequest (AuthServerRequest) returns (AuthServerResponse);
 }

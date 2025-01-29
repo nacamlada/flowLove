@@ -36,14 +36,15 @@ class App < Roda
       client = Configuration::Servers.public_send(destination)
 
       # TODO: make it dynamically
-      stub = Authserver::AuthServer::Stub.new("#{client[:host]}:#{client[:port]}", client[:secure_flag])
+      stub = Authserver::AuthServerService::Stub.new("#{client[:host]}:#{client[:port]}", client[:secure_flag])
   
       # Виклик gRPC функції
-      req = Authserver.const_get("#{function}Request").new(r.params.merge(Flow: instruction))
-      res = stub.public_send(underscore(function), req)
+      payload = { method_name: instruction, payload: r.params.to_json.encode('ASCII-8BIT') }
+      req = Authserver.const_get("AuthServerRequest").new(payload)
+      res = stub.handle_request(req)
       "Response from gRPC: #{JSON.parse(res.to_json)}"
-      response.status = res["session_id"]
-      "OK"
+      response.status = res["status_code"]
+      JSON.parse(res["payload"])
     else
       response.status = 404
       nil

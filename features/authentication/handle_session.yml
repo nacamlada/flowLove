@@ -5,8 +5,8 @@ Description: It allow system get session
 
 EntryPoints:
   - Type: Route
-    RouteMethod: Get
-    RoutePath: Session
+    RouteMethod: GET
+    RoutePath: session
 
 Executor:
   ExecutorName: GetSession
@@ -36,7 +36,3 @@ ResponseProcessor:
     Status: 500
     Body: SomethingWentWrong
 
-
-  
-
-    
