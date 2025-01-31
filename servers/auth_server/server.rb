@@ -46,9 +46,8 @@ class Handler < inherited_klass
   end
 
   def build_steps(flow)
-    @cache.get_flow(flow)
-    flow = JSON.parse(REDIS.get(flow))
-    flow["Steps"].map { |step| Instructions.const_get(step["name"])}
+    flow = @cache.get_flow(flow)
+    flow[:Steps].map { |step| Instructions.const_get(step[:name])}
   end
 
   def run_instructions(steps, input)
@@ -57,7 +56,6 @@ class Handler < inherited_klass
       m.failure { |errors| { failure: errors } }
     end
   end
-
 end
 
 # Start the gRPC server
